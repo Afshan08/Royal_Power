@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <!-- Check if hero image exists, else fallback to CSS gradient -->
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="display-3 mb-4 text-white">Power Your Ride with <span class="text-gold">Royal
+                        Excellence</span></h1>
+                <p class="lead text-white-50 mb-5">Discover Peshawar's finest selection of high-performance motorcycles.
+                    Unmatched quality, reliability, and service.</p>
+                <a href="/products" class="btn btn-royal me-3">View Collection</a>
+                <a href="/contact-us" class="btn btn-outline-royal">Support & Queries</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5 bg-darker">
+    <div class="container py-5">
+        <div class="row text-center g-4">
+            <div class="col-md-4">
+                <div class="p-4 border border-secondary rounded-3">
+                    <i class="bi bi-headset display-4 text-gold mb-3"></i>
+                    <h3 class="text-white">24/7 Support</h3>
+                    <p class="text-secondary">Dedicated support team to handle all your queries and maintenance requests
+                        instantly.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 border border-secondary rounded-3">
+                    <i class="bi bi-gear-wide-connected display-4 text-gold mb-3"></i>
+                    <h3 class="text-white">Genuine Parts</h3>
+                    <p class="text-secondary">We stock only 100% authentic parts for maximum durability and performance.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 border border-secondary rounded-3">
+                    <i class="bi bi-award display-4 text-gold mb-3"></i>
+                    <h3 class="text-white">Trusted Quality</h3>
+                    <p class="text-secondary">Certified quality checks on every unit before it leaves our showroom
+                        floor.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products Preview -->
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <h2 class="text-white">Featured Motorcycles</h2>
+            <a href="/products" class="text-gold text-decoration-none">View All <i class="bi bi-arrow-right"></i></a>
+        </div>
+        <div class="row g-4">
+            <!-- Product 1 -->
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="bg-secondary p-5 text-center text-white-50 d-flex align-items-center justify-content-center"
+                        style="height: 250px;">
+                        <i class="bi bi-bicycle display-1"></i> <!-- Placeholder Icon -->
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <h5 class="card-title">RP-70 Classic</h5>
+                            <span class="text-gold fw-bold">PKR 125,000</span>
+                        </div>
+                        <p class="card-text text-secondary small">Fuel efficient city commuter specifically tuned for
+                            Peshawar traffic.</p>
+                        <button class="btn btn-outline-royal btn-sm w-100 mt-2">View Specs</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Product 2 -->
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="bg-secondary p-5 text-center text-white-50 d-flex align-items-center justify-content-center"
+                        style="height: 250px;">
+                        <i class="bi bi-bicycle display-1"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <h5 class="card-title">RP-125 Sport</h5>
+                            <span class="text-gold fw-bold">PKR 185,000</span>
+                        </div>
+                        <p class="card-text text-secondary small">Power and comfort combined for long-distance highway
+                            cruising.</p>
+                        <button class="btn btn-outline-royal btn-sm w-100 mt-2">View Specs</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Product 3 -->
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="bg-secondary p-5 text-center text-white-50 d-flex align-items-center justify-content-center"
+                        style="height: 250px;">
+                        <i class="bi bi-bicycle display-1"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <h5 class="card-title">RP-150 off-road</h5>
+                            <span class="text-gold fw-bold">PKR 240,000</span>
+                        </div>
+                        <p class="card-text text-secondary small">Rugged build customized for rugged terrain and
+                            durability.</p>
+                        <button class="btn btn-outline-royal btn-sm w-100 mt-2">View Specs</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

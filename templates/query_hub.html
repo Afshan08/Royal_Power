@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="text-white">Royal Query <span class="text-gold">Hub</span></h1>
+            <p class="text-secondary">One central place for all your interactions. File complaints, request quotes, or
+                track orders.</p>
+        </div>
+    </div>
+
+    <!-- Query Hub Tabs -->
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card p-4">
+                <ul class="nav nav-pills mb-4 justify-content-center" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active rounded-pill px-4" id="pills-complaint-tab" data-bs-toggle="pill"
+                            data-bs-target="#pills-complaint" type="button" role="tab">Customer Complaints</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link rounded-pill px-4" id="pills-vendor-tab" data-bs-toggle="pill"
+                            data-bs-target="#pills-vendor" type="button" role="tab">Vendor Quotes</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link rounded-pill px-4" id="pills-track-tab" data-bs-toggle="pill"
+                            data-bs-target="#pills-track" type="button" role="tab">Track Status</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="pills-tabContent">
+
+                    <!-- Complaint Form -->
+                    <div class="tab-pane fade show active" id="pills-complaint" role="tabpanel">
+                        <h4 class="text-white mb-3">File a Complaint</h4>
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control bg-dark border-secondary text-white"
+                                        placeholder="Full Name">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="tel" class="form-control bg-dark border-secondary text-white"
+                                        placeholder="Phone Number">
+                                </div>
+                                <div class="col-12">
+                                    <select class="form-select bg-dark border-secondary text-white">
+                                        <option selected>Select Issue Type</option>
+                                        <option value="1">Engine Maintenance</option>
+                                        <option value="2">Parts Availability</option>
+                                        <option value="3">Service Quality</option>
+                                        <option value="4">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <textarea class="form-control bg-dark border-secondary text-white" rows="4"
+                                        placeholder="Describe your issue taking as much detail as possible..."></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-royal w-100">Submit Ticket</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Vendor Form -->
+                    <div class="tab-pane fade" id="pills-vendor" role="tabpanel">
+                        <h4 class="text-white mb-3">Submit a Quote (For Vendors)</h4>
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control bg-dark border-secondary text-white"
+                                        placeholder="Company Name">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="email" class="form-control bg-dark border-secondary text-white"
+                                        placeholder="Business Email">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label text-secondary">Upload Catalog/Price List (PDF)</label>
+                                    <input type="file" class="form-control bg-dark border-secondary text-white">
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-royal w-100">Submit Quote</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Track Status -->
+                    <div class="tab-pane fade" id="pills-track" role="tabpanel">
+                        <h4 class="text-white mb-3">Track Ticket Status</h4>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control bg-dark border-secondary text-white"
+                                placeholder="Enter Ticket ID (e.g., #RP-2026)">
+                            <button class="btn btn-royal" type="button">Track</button>
+                        </div>
+                        <div class="alert alert-dark text-center border-secondary" role="alert">
+                            Enter your Ticket ID above to see real-time updates.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

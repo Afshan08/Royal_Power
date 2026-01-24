@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="text-white">Contact <span class="text-gold">Us</span></h1>
+            <p class="text-secondary">Get in touch with Royal Power directly. Please select your role below to see the
+                relevant form.</p>
+        </div>
+    </div>
+
+    <!-- Contact Form Container -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card p-4 p-md-5">
+                <form>
+                    <!-- Role Selection -->
+                    <div class="mb-4">
+                        <label class="form-label text-white">I am a...</label>
+                        <select class="form-select bg-dark border-secondary text-white" id="roleSelect"
+                            onchange="toggleFields()">
+                            <option value="customer" selected>Customer</option>
+                            <option value="vendor">Vendor</option>
+                            <option value="supplier">Supplier</option>
+                        </select>
+                    </div>
+
+                    <!-- Common Fields -->
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-secondary small">Full Name / Contact Person</label>
+                            <input type="text" class="form-control bg-dark border-secondary text-white"
+                                placeholder="Enter Name">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-secondary small">City</label>
+                            <input type="text" class="form-control bg-dark border-secondary text-white"
+                                placeholder="e.g. Peshawar">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-secondary small">Phone Number</label>
+                            <input type="tel" class="form-control bg-dark border-secondary text-white"
+                                placeholder="03XX-XXXXXXX">
+                        </div>
+                        <div class="col-md-6" id="whatsappField" style="display:none;">
+                            <label class="form-label text-secondary small">WhatsApp Number</label>
+                            <input type="tel" class="form-control bg-dark border-secondary text-white"
+                                placeholder="03XX-XXXXXXX">
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label text-secondary small">Email Address</label>
+                            <input type="email" class="form-control bg-dark border-secondary text-white"
+                                placeholder="name@example.com">
+                        </div>
+                    </div>
+
+                    <!-- Vendor/Supplier Specific Fields -->
+                    <div id="vendorFields" class="row g-3 mt-1" style="display:none;">
+                        <div class="col-12">
+                            <hr class="border-secondary my-3">
+                            <h5 class="text-gold mb-3">Business Details</h5>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label text-secondary small">Company/Shop Name</label>
+                            <input type="text" class="form-control bg-dark border-secondary text-white"
+                                placeholder="Enter Business Name">
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label text-secondary small">Product Details / Services Offered</label>
+                            <textarea class="form-control bg-dark border-secondary text-white" rows="3"
+                                placeholder="Describe the products or services you wish to supply..."></textarea>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label text-secondary small">Upload Catalog (Optional)</label>
+                            <input type="file" class="form-control bg-dark border-secondary text-white">
+                        </div>
+                    </div>
+
+                    <!-- Customer Specific Fields -->
+                    <div id="customerFields" class="row g-3 mt-1">
+                        <div class="col-12">
+                            <hr class="border-secondary my-3">
+                            <h5 class="text-gold mb-3">Query Details</h5>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label text-secondary small">Subject</label>
+                            <select class="form-select bg-dark border-secondary text-white">
+                                <option>General Inquiry</option>
+                                <option>Complaint</option>
+                                <option>Service Booking</option>
+                                <option>Feedback</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label text-secondary small">Message</label>
+                            <textarea class="form-control bg-dark border-secondary text-white" rows="4"
+                                placeholder="How can we help you?"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-royal w-100">Submit Information</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleFields() {
+        const role = document.getElementById('roleSelect').value;
+        const vendorFields = document.getElementById('vendorFields');
+        const customerFields = document.getElementById('customerFields');
+        const whatsappField = document.getElementById('whatsappField');
+
+        if (role === 'vendor' || role === 'supplier') {
+            vendorFields.style.display = 'flex';
+            customerFields.style.display = 'none';
+            whatsappField.style.display = 'block'; // Show WhatsApp for vendors/suppliers
+        } else {
+            vendorFields.style.display = 'none';
+            customerFields.style.display = 'flex';
+            whatsappField.style.display = 'none';
+        }
+    }
+</script>
+{% endblock %}

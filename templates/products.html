@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="text-white">Our <span class="text-gold">Collection</span></h1>
+            <p class="text-secondary">Explore our premium range of motorcycles designed for power and performance.</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Loop through products (Hardcoded for demo, normally dynamic) -->
+        {% for i in range(1, 7) %}
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="bg-secondary p-5 text-center text-white-50 d-flex align-items-center justify-content-center"
+                    style="height: 250px;">
+                    <!-- Placeholder Image -->
+                    <i class="bi bi-bicycle display-1"></i>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <h5 class="card-title">Royal Model {{ i }}00</h5>
+                        <span class="text-gold fw-bold">PKR {{ 100 + i*20 }},000</span>
+                    </div>
+                    <p class="card-text text-secondary small">Experience the ultimate ride with our flagship Model {{ i
+                        }}00. Built for the roads of Peshawar.</p>
+                    <ul class="list-unstyled text-secondary small mb-3">
+                        <li><i class="bi bi-check-circle-fill text-gold me-2"></i>{{ i }}0km/L Fuel Average</li>
+                        <li><i class="bi bi-check-circle-fill text-gold me-2"></i>3 Year Warranty</li>
+                    </ul>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-royal">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
