@@ -1,61 +1,84 @@
 {% extends "base.html" %}
 
+{% block title %}Find a Dealer - Royal Power{% endblock %}
+
+{% block head_extras %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<style>
+    #map {
+        height: 100%;
+        width: 100%;
+        border-radius: 1rem;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container py-5 mt-5">
-    <div class="row mb-5">
-        <div class="col-lg-8 mx-auto text-center">
-            <h1 class="text-white">Find a <span class="text-gold">Dealer</span></h1>
-            <p class="text-secondary">Locate the nearest authorized Royal Power dealership.</p>
-        </div>
-    </div>
+<div class="relative h-[calc(100vh-80px)] flex flex-col md:flex-row overflow-hidden bg-gray-100">
 
-    <div class="row">
-        <!-- Map Column -->
-        <div class="col-lg-8 mb-4">
-            <div id="map" style="height: 500px; width: 100%; border-radius: 10px;"></div>
+    <!-- Sidebar (Dealer List) -->
+    <div class="w-full md:w-1/3 lg:w-1/4 bg-white z-20 flex flex-col shadow-xl border-r border-gray-200">
+        <div class="p-6 bg-royal-black text-white shrink-0">
+            <h1 class="text-2xl font-display font-bold"><i
+                    class="fa-solid fa-location-dot text-royal-gold mr-2"></i>Find a Dealer</h1>
+            <p class="text-gray-400 text-sm mt-1">Locating nearest authorized centers.</p>
         </div>
 
-        <!-- List Column -->
-        <div class="col-lg-4">
-            <div class="card h-100">
-                <div class="card-header bg-gold text-black fw-bold">
-                    Nearby Dealers
-                </div>
-                <div class="card-body p-0">
-                    <div class="list-group list-group-flush" id="dealer-list">
-                        <!-- Dealers will be populated here -->
-                        <div class="p-3 text-secondary text-center">Loading dealers...</div>
-                    </div>
-                </div>
+        <!-- Search/Filter (Static for now, but UI ready) -->
+        <div class="p-4 border-b border-gray-100 bg-gray-50">
+            <div class="relative">
+                <input type="text" placeholder="Search city or dealer..."
+                    class="w-full pl-10 pr-4 py-2 rounded-lg border-gray-200 border focus:border-royal-red focus:ring-1 focus:ring-royal-red outline-none text-sm">
+                <i class="fa-solid fa-search absolute left-3 top-2.5 text-gray-400"></i>
+            </div>
+        </div>
+
+        <!-- Scrollable List -->
+        <div id="dealer-list" class="flex-grow overflow-y-auto p-4 space-y-3">
+            <div class="text-center py-10">
+                <i class="fa-solid fa-circle-notch fa-spin text-royal-red text-2xl"></i>
+                <p class="text-gray-500 mt-2 text-sm">Loading dealers...</p>
             </div>
         </div>
     </div>
+
+    <!-- Map Area -->
+    <div class="flex-grow relative bg-gray-200">
+        <div id="map"
+            class="absolute inset-0 z-10 m-0 md:m-4 rounded-none md:rounded-2xl shadow-inner border border-gray-300">
+        </div>
+
+        <!-- Locate Me Button -->
+        <button onclick="zoomToUser()"
+            class="absolute bottom-8 right-8 z-[500] bg-white text-royal-black w-12 h-12 rounded-full shadow-lg flex items-center justify-center hover:bg-royal-gold hover:text-white transition-all">
+            <i class="fa-solid fa-crosshairs text-xl"></i>
+        </button>
+    </div>
 </div>
-
-{% endblock %}
-
-{% block scripts %}
-<!-- Leaflet CSS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <script>
     let map;
     let markers = [];
     let allDealers = [];
+    let userMarker = null;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        initMap();
+        fetchDealers();
+    });
 
     function initMap() {
-        // Default to Peshawar
-        const defaultLoc = [34.0151, 71.5249];
+        const defaultLoc = [30.3753, 69.3451]; // Center of Pakistan approx
+        map = L.map('map', { zoomControl: false }).setView(defaultLoc, 6);
 
-        // Initialize Leaflet Map
-        map = L.map('map').setView(defaultLoc, 12);
+        // Custom Zoom Control Position
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-        // Add Dark Mode Tiles (CartoDB Dark Matter)
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        // Light Theme Tiles for standard view
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
             subdomains: 'abcd',
             maxZoom: 19
@@ -66,27 +89,23 @@
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     const pos = [position.coords.latitude, position.coords.longitude];
-                    map.setView(pos, 12);
+                    map.setView(pos, 11);
 
-                    // User Location Marker (Blue)
-                    L.marker(pos).addTo(map)
+                    if (userMarker) map.removeLayer(userMarker);
+
+                    // Custom Icon for User
+                    const userIcon = L.divIcon({
+                        className: 'custom-div-icon',
+                        html: "<div style='background-color:#4285F4; width:12px; height:12px; border-radius:50%; border:2px solid white; box-shadow: 0 0 0 5px rgba(66, 133, 244, 0.3);'></div>",
+                        iconSize: [12, 12],
+                        iconAnchor: [6, 6]
+                    });
+
+                    userMarker = L.marker(pos, { icon: userIcon }).addTo(map)
                         .bindPopup("<b>Your Location</b>").openPopup();
 
                     if (allDealers.length > 0) {
-                        // Calculate distances and sort
-                        allDealers.forEach(d => {
-                            if (d.lat && d.lng) {
-                                d.distance = Math.hypot(d.lat - pos[0], d.lng - pos[1]);
-                            } else {
-                                d.distance = Infinity;
-                            }
-                        });
-
-                        allDealers.sort((a, b) => a.distance - b.distance);
-
-                        // Show Top 5 Nearest
-                        const top5 = allDealers.slice(0, 5);
-                        renderList(top5);
+                        sortAndRender(pos);
                     }
                 },
                 () => console.log("Geolocation blocked or failed.")
@@ -96,72 +115,121 @@
 
     function fetchDealers() {
         fetch('/api/dealers')
-            .then(response => {
-                if (!response.ok) throw new Error("Network response was not ok");
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
                 allDealers = data;
-                // Initial render (all or top 20 to avoid overwhelming?) 
-                // Let's render all initially or just a placeholder until location found?
-                // For now, render all (or first 50) to verify data load
-                renderList(data.slice(0, 50));
+                sortAndRender(null); // Render unsorted first or default order
                 renderMapMarkers(data);
             })
             .catch(error => {
                 console.error("Error fetching dealers:", error);
-                document.getElementById('dealer-list').innerHTML = `<div class="p-3 text-danger text-center">Failed to load dealers.</div>`;
+                document.getElementById('dealer-list').innerHTML = `<div class="p-6 text-center text-red-500"><i class="fa-solid fa-triangle-exclamation text-2xl mb-2"></i><br>Failed to load dealers.</div>`;
             });
     }
 
+    // Harversine formula to sort by distance
+    function getDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371; // km
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+    }
+
+    function sortAndRender(userPos) {
+        let displayList = allDealers;
+
+        if (userPos) {
+            // Filter valid coords
+            const valid = allDealers.filter(d => d.lat !== null && d.lng !== null);
+            // Sort by distance
+            valid.forEach(d => {
+                d.distance = getDistance(userPos[0], userPos[1], d.lat, d.lng);
+            });
+            valid.sort((a, b) => a.distance - b.distance);
+
+            displayList = valid.slice(0, 10); // Show top 10 closest
+        } else {
+            displayList = displayList.slice(0, 50); // Show generic list if no location
+        }
+
+        renderList(displayList);
+    }
+
     function renderList(dealers) {
-        const dealerList = document.getElementById('dealer-list');
-        dealerList.innerHTML = '';
+        const list = document.getElementById('dealer-list');
+        list.innerHTML = '';
 
         if (dealers.length === 0) {
-            dealerList.innerHTML = '<div class="p-3 text-secondary text-center">No dealers found.</div>';
+            list.innerHTML = `<div class="p-6 text-center text-gray-500">No dealers found nearby.</div>`;
             return;
         }
 
-        dealers.forEach((dealer) => {
+        dealers.forEach(dealer => {
             const item = document.createElement('div');
-            item.className = 'list-group-item bg-dark text-white border-secondary';
+            // Tailwind Card Style for List Item
+            item.className = "bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:border-royal-gold cursor-pointer transition-all group";
+
+            let distBadge = '';
+            if (dealer.distance) {
+                distBadge = `<span class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full font-bold ml-2">${dealer.distance.toFixed(1)} km</span>`;
+            }
+
             item.innerHTML = `
-                <div class="d-flex w-100 justify-content-between">
-                    <h6 class="mb-1 text-gold">${dealer.name}</h6>
+                <div class="flex justify-between items-start">
+                    <h3 class="font-bold text-royal-black group-hover:text-royal-red transition-colors">${dealer.name}</h3>
+                    ${distBadge}
                 </div>
-                <p class="mb-1 small text-secondary">${dealer.address}</p>
-                <small class="text-white"><i class="bi bi-telephone"></i> ${dealer.phone}</small>
+                <p class="text-sm text-gray-500 mt-1 line-clamp-2"><i class="fa-solid fa-map-pin text-royal-red/70 mr-1"></i> ${dealer.address}</p>
+                <div class="mt-2 text-xs font-medium text-gray-600 bg-gray-50 inline-block px-2 py-1 rounded">
+                    <i class="fa-solid fa-phone mr-1"></i> ${dealer.phone}
+                </div>
             `;
 
             if (dealer.lat && dealer.lng) {
-                item.style.cursor = 'pointer';
                 item.onclick = () => {
-                    if (map) {
-                        map.setView([dealer.lat, dealer.lng], 15);
-                        // Find and open marker popup if possible (requires tracking markers)
-                    }
+                    map.setView([dealer.lat, dealer.lng], 16);
+                    // Optionally trigger marker popup here if tracked
                 };
             }
-            dealerList.appendChild(item);
+
+            list.appendChild(item);
         });
     }
 
     function renderMapMarkers(dealers) {
-        if (!map) return;
+        // Clear existing if any
+        markers.forEach(m => map.removeLayer(m));
+        markers = [];
 
         dealers.forEach(dealer => {
             if (dealer.lat && dealer.lng) {
+                // Red marker for dealers
                 const marker = L.marker([dealer.lat, dealer.lng]).addTo(map);
-                marker.bindPopup(`<strong>${dealer.name}</strong><br>${dealer.address}<br>${dealer.phone}`);
+
+                const popupContent = `
+                    <div class="p-1">
+                        <h4 class="font-bold text-red-600 text-sm mb-1">${dealer.name}</h4>
+                        <p class="text-xs text-gray-600 mb-1">${dealer.address}</p>
+                        <p class="text-xs font-bold text-gray-800"><i class="fas fa-phone"></i> ${dealer.phone}</p>
+                    </div>
+                `;
+
+                marker.bindPopup(popupContent);
+                markers.push(marker);
             }
         });
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        initMap();
-        fetchDealers();
-    });
-
+    function zoomToUser() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                map.setView([position.coords.latitude, position.coords.longitude], 13);
+            });
+        }
+    }
 </script>
 {% endblock %}

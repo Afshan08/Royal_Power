@@ -1,79 +1,91 @@
 {% extends "base.html" %}
 
+{% block title %}FAQ - Royal Power{% endblock %}
+
 {% block content %}
-<div class="container py-5 mt-5">
-    <div class="row mb-5">
-        <div class="col-lg-8 mx-auto text-center">
-            <h1 class="text-white">Frequently Asked <span class="text-gold">Questions</span></h1>
-            <p class="text-secondary">Find answers to common questions about our bikes, services, and policies.</p>
+<div class="bg-royal-gray py-20">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h1 class="text-4xl font-display font-bold text-royal-black">Frequently Asked Questions</h1>
+            <p class="text-gray-500 mt-4">Find answers to common questions about our motorcycles and services.</p>
         </div>
-    </div>
 
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="accordion" id="faqAccordion">
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseOne">
-                            Do you offer installment plans in Peshawar?
-                        </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body text-secondary">
-                            Yes, we offer flexible installment plans for up to 12 months for Peshawar residents with
-                            valid ID and a guarantor.
-                        </div>
+        <div class="max-w-3xl mx-auto space-y-4">
+            <!-- FAQ Item 1 -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                <details class="group">
+                    <summary
+                        class="flex justify-between items-center font-medium cursor-pointer list-none p-6 text-royal-black hover:text-royal-red transition-colors">
+                        <span>Where can I buy Royal Power motorcycles?</span>
+                        <span class="transition group-open:rotate-180">
+                            <i class="fa-solid fa-chevron-down text-sm"></i>
+                        </span>
+                    </summary>
+                    <div class="text-gray-500 px-6 pb-6 text-sm leading-relaxed border-t border-gray-50 pt-4">
+                        You can purchase our motorcycles from any authorized dealer across Pakistan. Use our <a
+                            href="/find-dealer" class="text-royal-red underline">Dealer Locator</a> to find the one
+                        nearest to you.
                     </div>
-                </div>
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseTwo">
-                            What is the warranty period for new bikes?
-                        </button>
-                    </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body text-secondary">
-                            All new Royal Power motorcycles come with a comprehensive 3-year engine warranty and 1-year
-                            free service package.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseThree">
-                            Where is the service center located?
-                        </button>
-                    </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body text-secondary">
-                            Our main service center is located at Ring Road, Peshawar. Open 6 days a week from 9 AM to 8
-                            PM.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseFour">
-                            How can I check the status of my complaint?
-                        </button>
-                    </h2>
-                    <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body text-secondary">
-                            You can check your complaint status instantly by visiting the "Query Hub" tab on our website
-                            and entering your Ticket ID.
-                        </div>
-                    </div>
-                </div>
-
+                </details>
             </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                <details class="group">
+                    <summary
+                        class="flex justify-between items-center font-medium cursor-pointer list-none p-6 text-royal-black hover:text-royal-red transition-colors">
+                        <span>What is the warranty period?</span>
+                        <span class="transition group-open:rotate-180">
+                            <i class="fa-solid fa-chevron-down text-sm"></i>
+                        </span>
+                    </summary>
+                    <div class="text-gray-500 px-6 pb-6 text-sm leading-relaxed border-t border-gray-50 pt-4">
+                        We offer a 1-year or 12,000 km engine warranty (whichever comes first) on all our models,
+                        ensuring peace of mind with your purchase.
+                    </div>
+                </details>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                <details class="group">
+                    <summary
+                        class="flex justify-between items-center font-medium cursor-pointer list-none p-6 text-royal-black hover:text-royal-red transition-colors">
+                        <span>Do you offer installment plans?</span>
+                        <span class="transition group-open:rotate-180">
+                            <i class="fa-solid fa-chevron-down text-sm"></i>
+                        </span>
+                    </summary>
+                    <div class="text-gray-500 px-6 pb-6 text-sm leading-relaxed border-t border-gray-50 pt-4">
+                        Installment plans vary by dealer. Please contact your nearest authorized dealer for available
+                        financing options.
+                    </div>
+                </details>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                <details class="group">
+                    <summary
+                        class="flex justify-between items-center font-medium cursor-pointer list-none p-6 text-royal-black hover:text-royal-red transition-colors">
+                        <span>How can I book a service appointment?</span>
+                        <span class="transition group-open:rotate-180">
+                            <i class="fa-solid fa-chevron-down text-sm"></i>
+                        </span>
+                    </summary>
+                    <div class="text-gray-500 px-6 pb-6 text-sm leading-relaxed border-t border-gray-50 pt-4">
+                        You can visit any of our authorized 3S dealerships (Sales, Service, Spare Parts) for
+                        maintenance. No prior appointment is strictly necessary, but it is recommended to avoid waiting.
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div class="text-center mt-12">
+            <p class="text-gray-500 mb-4">Still have questions?</p>
+            <a href="/contact-us"
+                class="inline-block bg-royal-gold text-royal-black font-bold px-8 py-3 rounded-lg hover:bg-black hover:text-white transition-all shadow-lg">Contact
+                Support</a>
         </div>
     </div>
 </div>

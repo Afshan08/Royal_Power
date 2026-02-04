@@ -1,42 +1,69 @@
 {% extends "base.html" %}
 
-{% block content %}
-<div class="container py-5 mt-5">
-    <div class="row mb-5">
-        <div class="col-12 text-center">
-            <h1 class="text-white">Our <span class="text-gold">Collection</span></h1>
-            <p class="text-secondary">Explore our premium range of motorcycles designed for power and performance.</p>
-        </div>
-    </div>
+{% block title %}Our Motorcycles - Royal Power{% endblock %}
 
-    <div class="row g-4">
-        <!-- Loop through products (Hardcoded for demo, normally dynamic) -->
-        {% for i in range(1, 7) %}
-        <div class="col-md-4">
-            <div class="card h-100">
-                <div class="bg-secondary p-5 text-center text-white-50 d-flex align-items-center justify-content-center"
-                    style="height: 250px;">
-                    <!-- Placeholder Image -->
-                    <i class="bi bi-bicycle display-1"></i>
+{% block content %}
+<div class="bg-royal-gray py-12">
+    <div class="container mx-auto px-4">
+        <!-- Header -->
+        <div class="text-center mb-16">
+            <span class="text-royal-red font-bold tracking-widest uppercase text-sm">Lineup</span>
+            <h1 class="text-4xl lg:text-5xl font-display font-bold text-royal-black mt-2">Our Motorcycles</h1>
+            <p class="text-gray-500 mt-4 max-w-2xl mx-auto">Discover the perfect ride for your lifestyle. From efficient
+                commuters to power-packed cruisers.</p>
+        </div>
+
+        <!-- Filter (Visual only for now) -->
+        <div class="flex justify-center gap-4 mb-12 flex-wrap">
+            <button class="px-6 py-2 rounded-full bg-royal-red text-white font-medium shadow-md">All Models</button>
+            <button
+                class="px-6 py-2 rounded-full bg-white text-gray-600 font-medium hover:bg-gray-100 transition-colors">70cc</button>
+            <button
+                class="px-6 py-2 rounded-full bg-white text-gray-600 font-medium hover:bg-gray-100 transition-colors">100cc</button>
+            <button
+                class="px-6 py-2 rounded-full bg-white text-gray-600 font-medium hover:bg-gray-100 transition-colors">125cc</button>
+            <button
+                class="px-6 py-2 rounded-full bg-white text-gray-600 font-medium hover:bg-gray-100 transition-colors">Electric</button>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for i in range(1, 4) %}
+            <!-- Product Card Mockup -->
+            <div
+                class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col">
+                <div class="relative h-64 bg-gray-50 flex items-center justify-center p-4">
+                    <img src="https://placehold.co/600x400/eeeeee/A0001E?text=Royal+Power+Model+{{i}}" alt="Bike"
+                        class="max-h-full object-contain">
                 </div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-2">
-                        <h5 class="card-title">Royal Model {{ i }}00</h5>
-                        <span class="text-gold fw-bold">PKR {{ 100 + i*20 }},000</span>
+                <div class="p-6 flex-grow flex flex-col">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-2xl font-display font-bold text-royal-black">Royal Power {{ 70 + (i*10) }}cc
+                        </h3>
+                        <span
+                            class="bg-royal-gold/10 text-royal-gold text-xs font-bold px-2 py-1 rounded uppercase">2026</span>
                     </div>
-                    <p class="card-text text-secondary small">Experience the ultimate ride with our flagship Model {{ i
-                        }}00. Built for the roads of Peshawar.</p>
-                    <ul class="list-unstyled text-secondary small mb-3">
-                        <li><i class="bi bi-check-circle-fill text-gold me-2"></i>{{ i }}0km/L Fuel Average</li>
-                        <li><i class="bi bi-check-circle-fill text-gold me-2"></i>3 Year Warranty</li>
-                    </ul>
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-royal">View Details</button>
+                    <p class="text-gray-500 text-sm mb-6 flex-grow">Engineered for durability and mileage. The perfect
+                        partner for your daily commute.</p>
+
+                    <div class="grid grid-cols-2 gap-4 mb-6 text-sm text-gray-600">
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-gas-pump text-royal-red"></i> 50 km/l
+                        </div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-gauge text-royal-red"></i> 4-Stroke
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
+                        <div class="text-lg font-bold text-royal-red">PKR {{ 100 + (i*20) }},000</div>
+                        <button
+                            class="bg-royal-black hover:bg-royal-red text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                            View Specs
+                        </button>
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 </div>
 {% endblock %}

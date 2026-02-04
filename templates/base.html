@@ -1,104 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Royal Power Motorcycles{% endblock %}</title>
-    <!-- Fonts -->
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        royal: {
+                            red: '#D80027',      /* Vibrant "Speed" Red */
+                            darkred: '#A0001E',  /* Deeper Red for hover/accents */
+                            gold: '#C5A059',     /* Premium Gold */
+                            black: '#111111',    /* Rich Black */
+                            gray: '#F3F4F6',     /* Light Gray Background */
+                            darkgray: '#E5E7EB'  /* Slightly darker gray for sections */
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
     <!-- Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Leaflet CSS (Load strictly only if needed, but keeping it here for simplicity or block injection) -->
+    {% block head_extras %}{% endblock %}
 </head>
-<body>
+
+<body
+    class="font-sans text-gray-800 bg-royal-gray flex flex-col min-h-screen selection:bg-royal-red selection:text-white">
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <i class="bi bi-speedometer2 text-white me-2"></i>ROYAL POWER
-            </a>
-            <button class="navbar-toggler bg-gold" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/products">Products</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/contact-us">Contact Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/faq">FAQ</a></li>
-                    <li class="nav-item ms-lg-2">
-                        <a href="/contact-us" class="btn btn-royal btn-sm mt-1 mt-lg-0">Partner/Contact</a>
-                    </li>
-                </ul>
+    <nav class="bg-white shadow-md fixed w-full z-50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="/" class="flex-shrink-0 flex items-center gap-2 group">
+                        <i
+                            class="fa-solid fa-motorcycle text-3xl text-royal-red group-hover:scale-110 transition-transform duration-300"></i>
+                        <span
+                            class="font-display font-bold text-2xl tracking-tight text-royal-black flex flex-col leading-none">
+                            ROYAL <span
+                                class="text-royal-gold text-sm tracking-widest font-medium uppercase">Power</span>
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="/" class="font-medium text-gray-600 hover:text-royal-red transition-colors relative group">
+                        Home
+                        <span
+                            class="absolute -bottom-1 left-0 w-0 h-0.5 bg-royal-red transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="/products"
+                        class="font-medium text-gray-600 hover:text-royal-red transition-colors relative group">
+                        Motorcycles
+                        <span
+                            class="absolute -bottom-1 left-0 w-0 h-0.5 bg-royal-red transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="/find-dealer"
+                        class="font-medium text-gray-600 hover:text-royal-red transition-colors relative group">
+                        Find Dealer
+                        <span
+                            class="absolute -bottom-1 left-0 w-0 h-0.5 bg-royal-red transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="/faq"
+                        class="font-medium text-gray-600 hover:text-royal-red transition-colors relative group">
+                        Help & FAQ
+                        <span
+                            class="absolute -bottom-1 left-0 w-0 h-0.5 bg-royal-red transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="/contact-us"
+                        class="font-medium text-gray-600 hover:text-royal-red transition-colors relative group">
+                        Contact
+                        <span
+                            class="absolute -bottom-1 left-0 w-0 h-0.5 bg-royal-red transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-royal-red focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="/"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-royal-red hover:bg-red-50">Home</a>
+                <a href="/products"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-royal-red hover:bg-red-50">Motorcycles</a>
+                <a href="/find-dealer"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-royal-red hover:bg-red-50">Find
+                    Dealer</a>
+                <a href="/faq"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-royal-red hover:bg-red-50">FAQ</a>
+                <a href="/contact-us"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-royal-red hover:bg-red-50">Contact</a>
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main>
+    <main class="flex-grow pt-20"> <!-- pt-20 to offset fixed navbar -->
         {% block content %}{% endblock %}
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-secondary py-5 mt-5">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <h4 class="text-white mb-3">Royal Power</h4>
-                    <p>Peshawar's most trusted motorcycle showroom. Quality, reliability, and speed guaranteed.</p>
+    <footer class="bg-royal-black text-white pt-16 pb-8 border-t-4 border-royal-gold">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <!-- Brand -->
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-motorcycle text-2xl text-royal-red"></i>
+                        <span class="font-display font-bold text-xl tracking-tight text-white">
+                            ROYAL <span class="text-royal-gold">Power</span>
+                        </span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        Engineered for power, designed for perfection. Experience the thrill of the ride with Royal
+                        Power Motorcycles.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#"
+                            class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 text-gray-400 hover:bg-royal-red hover:text-white transition-all"><i
+                                class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"
+                            class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 text-gray-400 hover:bg-royal-red hover:text-white transition-all"><i
+                                class="fa-brands fa-twitter"></i></a>
+                        <a href="#"
+                            class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 text-gray-400 hover:bg-royal-red hover:text-white transition-all"><i
+                                class="fa-brands fa-instagram"></i></a>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <h5 class="text-white mb-3">Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="/products" class="text-secondary text-decoration-none hover-gold">New Arrivals</a></li>
-                        <li><a href="/contact-us" class="text-secondary text-decoration-none hover-gold">Complaint Center</a></li>
-                        <li><a href="/faq" class="text-secondary text-decoration-none hover-gold">FAQs</a></li>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="font-display font-bold text-lg mb-6 text-white">Explore</h3>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="/products"
+                                class="hover:text-royal-gold transition-colors flex items-center gap-2"><i
+                                    class="fa-solid fa-chevron-right text-xs text-royal-red"></i> All Motorcycles</a>
+                        </li>
+                        <li><a href="/find-dealer"
+                                class="hover:text-royal-gold transition-colors flex items-center gap-2"><i
+                                    class="fa-solid fa-chevron-right text-xs text-royal-red"></i> Locate a Dealer</a>
+                        </li>
+                        <li><a href="/faq" class="hover:text-royal-gold transition-colors flex items-center gap-2"><i
+                                    class="fa-solid fa-chevron-right text-xs text-royal-red"></i> Support Center</a>
+                        </li>
+                        <li><a href="/contact-us"
+                                class="hover:text-royal-gold transition-colors flex items-center gap-2"><i
+                                    class="fa-solid fa-chevron-right text-xs text-royal-red"></i> Contact Us</a></li>
                     </ul>
                 </div>
-                <div class="col-md-4">
-                    <h5 class="text-white mb-3">Contact Us</h5>
-                    <p><i class="bi bi-geo-alt me-2"></i> Ring Road, Peshawar, Pakistan</p>
-                    <p><i class="bi bi-telephone me-2"></i> +92 300 1234567</p>
-                    <p><i class="bi bi-envelope me-2"></i> info@royalpower.pk</p>
+
+                <!-- Contact Info -->
+                <div class="col-span-1 md:col-span-2">
+                    <h3 class="font-display font-bold text-lg mb-6 text-white">Contact Us</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex items-start gap-3">
+                            <div
+                                class="mt-1 w-8 h-8 flex-shrink-0 flex items-center justify-center rounded bg-gray-800 text-royal-gold">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div class="text-sm">
+                                <span class="block text-gray-300 font-medium">Head Office</span>
+                                <span class="text-gray-500">Ring Road, Peshawar, Pakistan</span>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div
+                                class="mt-1 w-8 h-8 flex-shrink-0 flex items-center justify-center rounded bg-gray-800 text-royal-gold">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div class="text-sm">
+                                <span class="block text-gray-300 font-medium">Helpline</span>
+                                <span class="text-gray-500">+92 300 1234567</span>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div
+                                class="mt-1 w-8 h-8 flex-shrink-0 flex items-center justify-center rounded bg-gray-800 text-royal-gold">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div class="text-sm">
+                                <span class="block text-gray-300 font-medium">Email</span>
+                                <span class="text-gray-500">info@royalpower.pk</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="border-top border-secondary mt-4 pt-4 text-center">
+
+            <div
+                class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
                 <p>&copy; 2026 Royal Power Motorcycles. All rights reserved.</p>
+                <p class="mt-2 md:mt-0">Built for speed.</p>
             </div>
         </div>
     </footer>
 
     <!-- Chatbot Widget -->
-    <div id="chatbot-widget">
-        <div id="chat-window">
-            <div class="chat-header">
-                <span><i class="bi bi-robot me-2"></i>Royal Assistant</span>
-                <button type="button" class="btn-close" id="close-chat" aria-label="Close"></button>
+    <div id="chatbot-widget" class="fixed bottom-6 right-6 z-50">
+        <!-- Minimized Button -->
+        <button id="chat-toggle-btn"
+            class="w-14 h-14 bg-royal-red hover:bg-royal-darkred text-white rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-105">
+            <i class="fa-solid fa-message text-2xl"></i>
+        </button>
+
+        <!-- Chat Window -->
+        <div id="chat-window"
+            class="hidden absolute bottom-16 right-0 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col transition-all duration-300 opacity-0 transform translate-y-4">
+            <!-- Header -->
+            <div class="bg-royal-black p-4 flex justify-between items-center border-b-4 border-royal-gold">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-robot text-royal-gold"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold text-sm">Royal Assistant</h4>
+                        <span class="text-green-400 text-xs flex items-center gap-1"><span
+                                class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span> Online</span>
+                    </div>
+                </div>
+                <button id="close-chat" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
-            <div class="chat-messages" id="chat-messages">
-                <div class="message bot">
-                    Hello! Welcome to Royal Power. How can I assist you today? (Try asking about "CD70 price" or "complaint")
+
+            <!-- Messages -->
+            <div id="chat-messages" class="flex-grow p-4 h-80 overflow-y-auto bg-gray-50 space-y-4">
+                <div class="flex items-start gap-2 max-w-[85%]">
+                    <div
+                        class="w-6 h-6 rounded-full bg-royal-black flex-shrink-0 flex items-center justify-center mt-1">
+                        <i class="fa-solid fa-robot text-[10px] text-royal-gold"></i>
+                    </div>
+                    <div
+                        class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 border border-gray-100">
+                        Hello! Welcome to Royal Power. How can I help you find your dream bike today?
+                    </div>
                 </div>
             </div>
-            <div class="chat-input-area">
-                <input type="text" id="chat-input" class="form-control form-control-sm" placeholder="Type a message...">
-                <button class="btn btn-royal btn-sm" id="send-btn"><i class="bi bi-send"></i></button>
+
+            <!-- Input -->
+            <div class="p-4 bg-white border-t border-gray-100">
+                <div
+                    class="flex items-center gap-2 bg-gray-50 rounded-full px-4 py-2 border border-gray-200 focus-within:border-royal-gold focus-within:ring-1 focus-within:ring-royal-gold transition-all">
+                    <input type="text" id="chat-input"
+                        class="bg-transparent border-none focus:ring-0 text-sm flex-grow text-gray-800 placeholder-gray-400"
+                        placeholder="Type a message...">
+                    <button id="send-btn" class="text-royal-red hover:text-royal-darkred transition-colors">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
             </div>
         </div>
-        <button id="chat-toggle-btn">
-            <i class="bi bi-chat-dots-fill"></i>
-        </button>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
     {% block scripts %}{% endblock %}
+
+    <script>
+        // Mobile menu toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        if (btn && menu) {
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        }
+    </script>
 </body>
+
 </html>

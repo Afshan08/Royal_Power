@@ -2,118 +2,180 @@
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero-section">
-    <!-- Check if hero image exists, else fallback to CSS gradient -->
-    <div class="hero-overlay"></div>
-    <div class="container hero-content">
-        <div class="row">
-            <div class="col-lg-8">
-                <h1 class="display-3 mb-4 text-white">Power Your Ride with <span class="text-gold">Royal
-                        Excellence</span></h1>
-                <p class="lead text-white-50 mb-5">Discover Peshawar's finest selection of high-performance motorcycles.
-                    Unmatched quality, reliability, and service.</p>
-                <a href="/products" class="btn btn-royal me-3">View Collection</a>
-                <a href="/contact-us" class="btn btn-outline-royal">Support & Queries</a>
+<section class="relative bg-royal-black text-white overflow-hidden min-h-[80vh] flex items-center">
+    <!-- Background Elements -->
+    <div class="absolute inset-0 z-0">
+        <!-- Abstract Red/Gold Shapes -->
+        <div
+            class="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-l from-royal-red/20 to-transparent transform skew-x-12 translate-x-20">
+        </div>
+        <div class="absolute bottom-0 left-0 w-1/3 h-1/2 bg-gradient-to-t from-royal-black to-transparent z-10"></div>
+    </div>
+
+    <div class="container mx-auto px-4 relative z-10 lg:pl-16">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Text Content -->
+            <div class="space-y-6 animate-fade-in-up">
+                <div
+                    class="inline-block bg-royal-gold/20 text-royal-gold px-4 py-1.5 rounded-full font-bold text-sm tracking-wide uppercase border border-royal-gold/30">
+                    The King of Roads
+                </div>
+                <h1 class="text-5xl lg:text-7xl font-display font-bold leading-tight">
+                    UNLEASH <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-royal-red to-red-500">ROYAL
+                        POWER</span>
+                </h1>
+                <p class="text-gray-300 text-lg lg:text-xl max-w-lg leading-relaxed">
+                    Experience the perfect blend of performance, style, and durability. Your journey to dominance starts
+                    here.
+                </p>
+                <div class="flex flex-wrap gap-4 pt-4">
+                    <a href="/products"
+                        class="bg-royal-red hover:bg-royal-darkred text-white px-8 py-4 rounded-lg font-bold uppercase tracking-wider transition-all transform hover:-translate-y-1 shadow-lg shadow-royal-red/30">
+                        View Models
+                    </a>
+                    <a href="/find-dealer"
+                        class="bg-transparent border-2 border-white hover:border-royal-gold hover:text-royal-gold text-white px-8 py-4 rounded-lg font-bold uppercase tracking-wider transition-all">
+                        Find Dealer
+                    </a>
+                </div>
+            </div>
+
+            <!-- Hero Image (Placeholder for now, using a bike-like shape/icon if actual image not avail) -->
+            <div class="relative lg:h-full flex justify-center items-center">
+                <!-- Decorative Circle -->
+                <div class="absolute w-[500px] h-[500px] bg-royal-gold/10 rounded-full blur-3xl"></div>
+                <!-- Actual Bike Image Placeholder -->
+                <img src="https://placehold.co/800x600/111111/D80027?text=Royal+Power+Bike" alt="Royal Power Motorcycle"
+                    class="relative z-10 transform hover:scale-105 transition-transform duration-500 drop-shadow-2xl">
             </div>
         </div>
     </div>
 </section>
 
-<!-- Features Section -->
-<section class="py-5 bg-darker">
-    <div class="container py-5">
-        <div class="row text-center g-4">
-            <div class="col-md-4">
-                <div class="p-4 border border-secondary rounded-3">
-                    <i class="bi bi-headset display-4 text-gold mb-3"></i>
-                    <h3 class="text-white">24/7 Support</h3>
-                    <p class="text-secondary">Dedicated support team to handle all your queries and maintenance requests
-                        instantly.</p>
+<!-- Features Strip -->
+<div class="bg-royal-red text-white py-8 relative z-20 -mt-8 shadow-xl mx-4 lg:mx-12 rounded-xl">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-white/20">
+        <div class="p-4">
+            <i class="fa-solid fa-gauge-high text-4xl mb-3 text-royal-gold"></i>
+            <h3 class="font-bold text-xl mb-1">High Performance</h3>
+            <p class="text-white/80 text-sm">Engineered for maximum speed and efficiency.</p>
+        </div>
+        <div class="p-4">
+            <i class="fa-solid fa-shield-halved text-4xl mb-3 text-royal-gold"></i>
+            <h3 class="font-bold text-xl mb-1">Built Tough</h3>
+            <p class="text-white/80 text-sm">Durability that withstands any terrain.</p>
+        </div>
+        <div class="p-4">
+            <i class="fa-solid fa-headset text-4xl mb-3 text-royal-gold"></i>
+            <h3 class="font-bold text-xl mb-1">24/7 Support</h3>
+            <p class="text-white/80 text-sm">Always here to keep you moving.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Models -->
+<section class="py-20 bg-royal-gray">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-sm font-bold text-royal-red tracking-widest uppercase mb-2">Our Collection</h2>
+            <h3 class="text-4xl font-display font-bold text-royal-black">Popular Models</h3>
+            <div class="w-20 h-1 bg-royal-gold mx-auto mt-4 rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Card 1 -->
+            <div
+                class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
+                <div class="relative h-64 bg-gray-100 flex items-center justify-center overflow-hidden">
+                    <div
+                        class="absolute top-4 right-4 bg-royal-gold text-white text-xs font-bold px-3 py-1 rounded-full z-10">
+                        BEST SELLER</div>
+                    <img src="https://placehold.co/600x400/eeeeee/D80027?text=RP+70cc" alt="RP 70cc"
+                        class="h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                </div>
+                <div class="p-6">
+                    <h4 class="text-2xl font-bold font-display text-royal-black mb-2">Royal Power 70cc</h4>
+                    <p class="text-gray-500 text-sm mb-4">The perfect commuter for daily rides. Fuel efficient and
+                        reliable.</p>
+                    <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+                        <span class="text-royal-red font-bold text-lg">PKR 125,000</span>
+                        <a href="/products"
+                            class="text-royal-black font-medium hover:text-royal-red transition-colors flex items-center gap-1 text-sm">
+                            Details <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="p-4 border border-secondary rounded-3">
-                    <i class="bi bi-gear-wide-connected display-4 text-gold mb-3"></i>
-                    <h3 class="text-white">Genuine Parts</h3>
-                    <p class="text-secondary">We stock only 100% authentic parts for maximum durability and performance.
-                    </p>
+
+            <!-- Card 2 -->
+            <div
+                class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
+                <div class="relative h-64 bg-gray-100 flex items-center justify-center overflow-hidden">
+                    <div
+                        class="absolute top-4 right-4 bg-royal-black text-white text-xs font-bold px-3 py-1 rounded-full z-10">
+                        NEW</div>
+                    <img src="https://placehold.co/600x400/eeeeee/D80027?text=RP+125cc" alt="RP 125cc"
+                        class="h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                </div>
+                <div class="p-6">
+                    <h4 class="text-2xl font-bold font-display text-royal-black mb-2">Royal Power 125cc</h4>
+                    <p class="text-gray-500 text-sm mb-4">More power, more comfort. Upgrade your ride today.</p>
+                    <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+                        <span class="text-royal-red font-bold text-lg">PKR 185,000</span>
+                        <a href="/products"
+                            class="text-royal-black font-medium hover:text-royal-red transition-colors flex items-center gap-1 text-sm">
+                            Details <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="p-4 border border-secondary rounded-3">
-                    <i class="bi bi-award display-4 text-gold mb-3"></i>
-                    <h3 class="text-white">Trusted Quality</h3>
-                    <p class="text-secondary">Certified quality checks on every unit before it leaves our showroom
-                        floor.</p>
+
+            <!-- Card 3 -->
+            <div
+                class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
+                <div class="relative h-64 bg-gray-100 flex items-center justify-center overflow-hidden">
+                    <img src="https://placehold.co/600x400/eeeeee/D80027?text=RP+Electric" alt="RP Electric"
+                        class="h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                </div>
+                <div class="p-6">
+                    <h4 class="text-2xl font-bold font-display text-royal-black mb-2">Royal EV Sport</h4>
+                    <p class="text-gray-500 text-sm mb-4">The future of riding. Zero emissions, instant torque.</p>
+                    <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+                        <span class="text-royal-red font-bold text-lg">Coming Soon</span>
+                        <a href="/products"
+                            class="text-royal-black font-medium hover:text-royal-red transition-colors flex items-center gap-1 text-sm">
+                            Details <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
+        </div>
+
+        <div class="text-center mt-12">
+            <a href="/products"
+                class="inline-block border-2 border-royal-black text-royal-black hover:bg-royal-black hover:text-white px-8 py-3 rounded-lg font-bold uppercase tracking-wider transition-all">
+                View All Motorcycles
+            </a>
         </div>
     </div>
 </section>
 
-<!-- Featured Products Preview -->
-<section class="py-5">
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-5">
-            <h2 class="text-white">Featured Motorcycles</h2>
-            <a href="/products" class="text-gold text-decoration-none">View All <i class="bi bi-arrow-right"></i></a>
-        </div>
-        <div class="row g-4">
-            <!-- Product 1 -->
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="bg-secondary p-5 text-center text-white-50 d-flex align-items-center justify-content-center"
-                        style="height: 250px;">
-                        <i class="bi bi-bicycle display-1"></i> <!-- Placeholder Icon -->
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between mb-2">
-                            <h5 class="card-title">RP-70 Classic</h5>
-                            <span class="text-gold fw-bold">PKR 125,000</span>
-                        </div>
-                        <p class="card-text text-secondary small">Fuel efficient city commuter specifically tuned for
-                            Peshawar traffic.</p>
-                        <button class="btn btn-outline-royal btn-sm w-100 mt-2">View Specs</button>
-                    </div>
-                </div>
-            </div>
-            <!-- Product 2 -->
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="bg-secondary p-5 text-center text-white-50 d-flex align-items-center justify-content-center"
-                        style="height: 250px;">
-                        <i class="bi bi-bicycle display-1"></i>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between mb-2">
-                            <h5 class="card-title">RP-125 Sport</h5>
-                            <span class="text-gold fw-bold">PKR 185,000</span>
-                        </div>
-                        <p class="card-text text-secondary small">Power and comfort combined for long-distance highway
-                            cruising.</p>
-                        <button class="btn btn-outline-royal btn-sm w-100 mt-2">View Specs</button>
-                    </div>
-                </div>
-            </div>
-            <!-- Product 3 -->
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="bg-secondary p-5 text-center text-white-50 d-flex align-items-center justify-content-center"
-                        style="height: 250px;">
-                        <i class="bi bi-bicycle display-1"></i>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between mb-2">
-                            <h5 class="card-title">RP-150 off-road</h5>
-                            <span class="text-gold fw-bold">PKR 240,000</span>
-                        </div>
-                        <p class="card-text text-secondary small">Rugged build customized for rugged terrain and
-                            durability.</p>
-                        <button class="btn btn-outline-royal btn-sm w-100 mt-2">View Specs</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- Call to Action -->
+<section class="py-20 bg-royal-black relative overflow-hidden">
+    <div class="absolute inset-0 opacity-20">
+        <!-- Pattern or Abstract background -->
+        <div class="w-full h-full"
+            style="background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');"></div>
+    </div>
+    <div class="container mx-auto px-4 relative z-10 text-center">
+        <h2 class="text-4xl lg:text-5xl font-display font-bold text-white mb-6">Ready to Ride?</h2>
+        <p class="text-gray-400 text-lg mb-8 max-w-2xl mx-auto">Find the nearest dealer and book a test ride today. Join
+            the Royal Power family.</p>
+        <a href="/find-dealer"
+            class="bg-royal-gold hover:bg-white hover:text-royal-black text-royal-black px-10 py-4 rounded-lg font-bold text-lg uppercase tracking-wider transition-all shadow-lg shadow-royal-gold/20">
+            Locate Dealer
+        </a>
     </div>
 </section>
 {% endblock %}
