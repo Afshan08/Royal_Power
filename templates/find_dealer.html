@@ -27,10 +27,10 @@
             <p class="text-gray-400 text-sm mt-1">Locating nearest authorized centers.</p>
         </div>
 
-        <!-- Search/Filter (Static for now, but UI ready) -->
+        <!-- Search/Filter -->
         <div class="p-4 border-b border-gray-100 bg-gray-50">
             <div class="relative">
-                <input type="text" placeholder="Search city or dealer..."
+                <input type="text" id="dealer-search" placeholder="Search city or dealer..."
                     class="w-full pl-10 pr-4 py-2 rounded-lg border-gray-200 border focus:border-royal-red focus:ring-1 focus:ring-royal-red outline-none text-sm">
                 <i class="fa-solid fa-search absolute left-3 top-2.5 text-gray-400"></i>
             </div>
@@ -230,6 +230,28 @@
                 map.setView([position.coords.latitude, position.coords.longitude], 13);
             });
         }
+    }
+
+    // Search Logic
+    const searchInput = document.getElementById('dealer-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = allDealers.filter(d =>
+                d.name.toLowerCase().includes(term) ||
+                d.address.toLowerCase().includes(term)
+            );
+
+            // If searching, show all matches (up to limit), ignoring sort
+            renderList(filtered);
+            renderMapMarkers(filtered);
+
+            // If strictly searching, we might want to fit bounds to results
+            if (term.length > 2 && filtered.length > 0) {
+                const bounds = L.latLngBounds(filtered.filter(d => d.lat && d.lng).map(d => [d.lat, d.lng]));
+                if (bounds.isValid()) map.fitBounds(bounds, { padding: [50, 50] });
+            }
+        });
     }
 </script>
 {% endblock %}
