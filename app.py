@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import os
+import json
 import logging
 from agents import Agent, RunConfig, AsyncOpenAI, OpenAIChatCompletionsModel
 from agents import Runner
@@ -25,6 +26,20 @@ def contact_us():
 @app.route('/faq')
 def faq():
     return render_template('faq.html')
+
+@app.route('/find-dealer')
+def find_dealer():
+    return render_template('find_dealer.html')
+
+@app.route('/api/dealers')
+def api_dealers():
+    try:
+        with open('dealers.json', 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        return jsonify(data)
+    except FileNotFoundError:
+        return jsonify([])
+
 
 
 # --- Backend Chatbot Logic ---
@@ -86,4 +101,4 @@ def chat():
     return jsonify({'response': bot_reply})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5000)

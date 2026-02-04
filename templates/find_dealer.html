@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="text-white">Find a <span class="text-gold">Dealer</span></h1>
+            <p class="text-secondary">Locate the nearest authorized Royal Power dealership.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Map Column -->
+        <div class="col-lg-8 mb-4">
+            <div id="map" style="height: 500px; width: 100%; border-radius: 10px;"></div>
+        </div>
+
+        <!-- List Column -->
+        <div class="col-lg-4">
+            <div class="card h-100">
+                <div class="card-header bg-gold text-black fw-bold">
+                    Nearby Dealers
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush" id="dealer-list">
+                        <!-- Dealers will be populated here -->
+                        <div class="p-3 text-secondary text-center">Loading dealers...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script>
+    let map;
+    let markers = [];
+    let allDealers = [];
+
+    function initMap() {
+        // Default to Peshawar
+        const defaultLoc = [34.0151, 71.5249];
+
+        // Initialize Leaflet Map
+        map = L.map('map').setView(defaultLoc, 12);
+
+        // Add Dark Mode Tiles (CartoDB Dark Matter)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Try Geolocation
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const pos = [position.coords.latitude, position.coords.longitude];
+                    map.setView(pos, 12);
+
+                    // User Location Marker (Blue)
+                    L.marker(pos).addTo(map)
+                        .bindPopup("<b>Your Location</b>").openPopup();
+
+                    if (allDealers.length > 0) {
+                        // Calculate distances and sort
+                        allDealers.forEach(d => {
+                            if (d.lat && d.lng) {
+                                d.distance = Math.hypot(d.lat - pos[0], d.lng - pos[1]);
+                            } else {
+                                d.distance = Infinity;
+                            }
+                        });
+
+                        allDealers.sort((a, b) => a.distance - b.distance);
+
+                        // Show Top 5 Nearest
+                        const top5 = allDealers.slice(0, 5);
+                        renderList(top5);
+                    }
+                },
+                () => console.log("Geolocation blocked or failed.")
+            );
+        }
+    }
+
+    function fetchDealers() {
+        fetch('/api/dealers')
+            .then(response => {
+                if (!response.ok) throw new Error("Network response was not ok");
+                return response.json();
+            })
+            .then(data => {
+                allDealers = data;
+                // Initial render (all or top 20 to avoid overwhelming?) 
+                // Let's render all initially or just a placeholder until location found?
+                // For now, render all (or first 50) to verify data load
+                renderList(data.slice(0, 50));
+                renderMapMarkers(data);
+            })
+            .catch(error => {
+                console.error("Error fetching dealers:", error);
+                document.getElementById('dealer-list').innerHTML = `<div class="p-3 text-danger text-center">Failed to load dealers.</div>`;
+            });
+    }
+
+    function renderList(dealers) {
+        const dealerList = document.getElementById('dealer-list');
+        dealerList.innerHTML = '';
+
+        if (dealers.length === 0) {
+            dealerList.innerHTML = '<div class="p-3 text-secondary text-center">No dealers found.</div>';
+            return;
+        }
+
+        dealers.forEach((dealer) => {
+            const item = document.createElement('div');
+            item.className = 'list-group-item bg-dark text-white border-secondary';
+            item.innerHTML = `
+                <div class="d-flex w-100 justify-content-between">
+                    <h6 class="mb-1 text-gold">${dealer.name}</h6>
+                </div>
+                <p class="mb-1 small text-secondary">${dealer.address}</p>
+                <small class="text-white"><i class="bi bi-telephone"></i> ${dealer.phone}</small>
+            `;
+
+            if (dealer.lat && dealer.lng) {
+                item.style.cursor = 'pointer';
+                item.onclick = () => {
+                    if (map) {
+                        map.setView([dealer.lat, dealer.lng], 15);
+                        // Find and open marker popup if possible (requires tracking markers)
+                    }
+                };
+            }
+            dealerList.appendChild(item);
+        });
+    }
+
+    function renderMapMarkers(dealers) {
+        if (!map) return;
+
+        dealers.forEach(dealer => {
+            if (dealer.lat && dealer.lng) {
+                const marker = L.marker([dealer.lat, dealer.lng]).addTo(map);
+                marker.bindPopup(`<strong>${dealer.name}</strong><br>${dealer.address}<br>${dealer.phone}`);
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initMap();
+        fetchDealers();
+    });
+
+</script>
+{% endblock %}
